@@ -21,7 +21,7 @@ if __name__ == "__main__":
         | (1) | (2) | (3) |
         -------------------\n""")
 
-    print("The player who is allowed to start is going to be chose randomly.\n")
+    print("The player who is allowed to start is going to be chosen randomly.\n")
     print("Choose the level of your opponent from the interval of 1 to 3,")
     print("1 means weak and 3 means strong. Enter only integers.")
 
