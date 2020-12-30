@@ -13,8 +13,8 @@ class Evaluation:
                                      [6,3,0], [7,4,1], [8,5,2],  # columns
                                      [6,4,2], [8,4,0])           # diagonals
 
-        self.player_arr = np.array([1,1,1])
-        self.opponent_arr = np.array([2,2,2])
+        self.player_arr = np.array([1,1,1]) # combination indicating player won
+        self.opponent_arr = np.array([2,2,2]) # combination indicating opponent won
 
 
     def evaluate(self, game_state):
@@ -23,6 +23,7 @@ class Evaluation:
         opponent_won = False
         tie = False
 
+        # iterate over all game ending conditions
         for combination in self.WINNING_COMBINATIONS:
             # player already won
             if np.array_equal(game_arr[combination], self.player_arr):

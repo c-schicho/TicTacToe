@@ -7,12 +7,13 @@ Version: 0.0
 from TicTacToe import TicTacToe
 
 if __name__ == "__main__":
+    # some information concerning the game
     print("\033[91m#######################\033[0m")
     print("\033[91m***** Tic-Tac-Toe *****\033[0m")
     print("\033[91m#######################\033[0m")
     print("\033[33mby Christopher Schicho\033[0m\n")
-    print("In order to make it easier to remember the corresponding number for each cell, I decided to use")
-    print("the same scheme as the number pad of your keyboard. Below you can see the corresponding numbers.\n")
+    print("In order to make it easier to remember the corresponding number for each cell, I decided to use the same \
+scheme as the number pad of your keyboard. Below you can see the corresponding numbers.\n")
     print("""\t-------------------
         | (7) | (8) | (9) |
         -------------------
@@ -25,6 +26,7 @@ if __name__ == "__main__":
     print("Choose the level of your opponent from the interval of 1 to 3,")
     print("1 means weak and 3 means strong. Enter only integers.")
 
+    # check if the difficulty input is valid
     input_valid = False
     while not input_valid:
         difficulty = input("Enter your Input [1-3]: ")
@@ -37,5 +39,5 @@ if __name__ == "__main__":
         except ValueError:
             print("\033[91mERROR:\033[0m the entered input is invalid!")
 
-    # start the game
+    # start the game with the entered difficulty
     TicTacToe(difficulty).run_game()

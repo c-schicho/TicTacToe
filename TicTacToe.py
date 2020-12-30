@@ -15,14 +15,9 @@ class TicTacToe:
         self.evaluation = Evaluation()
         self.opponent = Opponent(difficulty)
         self.starting_player = random.choice([1, 2]) # 1=player 2=opponent
-        self.SIGN_PLAYER = "\033[91mO\033[0m"
-        self.SIGN_OPPONENT = "\033[94mX\033[0m"
+        self.SIGN_PLAYER = "\033[91mO\033[0m" # O
+        self.SIGN_OPPONENT = "\033[94mX\033[0m" # X
         self.game_arr = np.zeros(9, dtype=np.int)
-        self.WINNING_COMBINATIONS = ([6,7,8], [3,4,5], [0,1,2],  # rows
-                                     [6,3,0], [7,4,1], [8,5,2],  # columns
-                                     [6,4,2], [8,4,0])           # diagonals
-        self.player_arr = np.array([1,1,1])
-        self.opponent_arr = np.array([2,2,2])
         self.player_won = False
         self.opponent_won = False
         self.tie = False
@@ -49,14 +44,17 @@ class TicTacToe:
 
 
     def _next_turn_(self, game_state):
+        """ performs move of the human player """
         game_arr = np.copy(game_state)
 
         input_valid = False
         while not input_valid:
             player_input = input("It's your turn, enter the number corresponding to the cell you want to fill [1-9]: ")
+            # check validity of players input
             try:
                 player_input = int(player_input)
                 if 0 < player_input <= 9 and not game_arr[player_input - 1]:
+                    # perform players move
                     game_arr[player_input-1] = 1
                     input_valid = True
                 else:
@@ -67,6 +65,7 @@ class TicTacToe:
 
 
     def run_game(self):
+        """ game loop """
         # set order of players
         if self.starting_player == 1:
             player1 = self
@@ -79,19 +78,22 @@ class TicTacToe:
 
         # run game
         while not self.player_won and not self.opponent_won and not self.tie:
+            # player1's turn
             self.game_arr = player1._next_turn_(self.game_arr)
             print(self)
             self.player_won, self.opponent_won, self.tie = self.evaluation.evaluate(self.game_arr)
 
+            # check if the last turn resulted in a game ending condition
             if self.player_won or self.opponent_won or self.tie:
                 # end the game loop
                 break
 
+            # player2's turn
             self.game_arr = player2._next_turn_(self.game_arr)
             print(self)
             self.player_won, self.opponent_won, self.tie = self.evaluation.evaluate(self.game_arr)
 
-        # end of the game
+        # evaluate end of the game
         if self.player_won:
             print("Awesome, you won the game!")
         elif self.opponent_won:
