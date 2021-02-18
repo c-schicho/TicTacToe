@@ -1,7 +1,7 @@
 """
 Author: Christopher Schicho
 Project: Tic-Tac-Toe
-Version: 0.0
+Version: 1.0
 """
 
 import numpy as np

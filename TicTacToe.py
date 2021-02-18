@@ -1,7 +1,7 @@
 """
 Author: Christopher Schicho
 Project: Tic-Tac-Toe
-Version: 0.0
+Version: 1.0
 """
 
 import random
@@ -43,7 +43,7 @@ class TicTacToe:
         return game_string
 
 
-    def _next_turn_(self, game_state):
+    def next_turn(self, game_state):
         """ performs move of the human player """
         game_arr = np.copy(game_state)
 
@@ -79,7 +79,7 @@ class TicTacToe:
         # run game
         while not self.player_won and not self.opponent_won and not self.tie:
             # player1's turn
-            self.game_arr = player1._next_turn_(self.game_arr)
+            self.game_arr = player1.next_turn(self.game_arr)
             print(self)
             self.player_won, self.opponent_won, self.tie = self.evaluation.evaluate(self.game_arr)
 
@@ -89,7 +89,7 @@ class TicTacToe:
                 break
 
             # player2's turn
-            self.game_arr = player2._next_turn_(self.game_arr)
+            self.game_arr = player2.next_turn(self.game_arr)
             print(self)
             self.player_won, self.opponent_won, self.tie = self.evaluation.evaluate(self.game_arr)
 

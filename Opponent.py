@@ -1,7 +1,7 @@
 """
 Author: Christopher Schicho
 Project: Tic-Tac-Toe
-Version: 0.0
+Version: 1.0
 """
 
 import random
@@ -15,7 +15,7 @@ class Opponent:
         self.evaluation = Evaluation()
 
 
-    def __alphabeta_search__(self, game_state, depth, alpha, beta, is_maximizing):
+    def _alphabeta_search(self, game_state, depth, alpha, beta, is_maximizing):
         """ alpha-beta search """
         player_won, opponent_won, tie = self.evaluation.evaluate(game_state)
 
@@ -33,7 +33,7 @@ class Opponent:
                 # perform a possible move
                 game_state[empty_cell] = 2
                 # maximize the value
-                value = max(value, self.__alphabeta_search__(game_state, depth-1, alpha, beta, not is_maximizing))
+                value = max(value, self._alphabeta_search(game_state, depth-1, alpha, beta, not is_maximizing))
                 # undo move from above
                 game_state[empty_cell] = 0
                 # maximize alpha
@@ -51,7 +51,7 @@ class Opponent:
                 # perform a possible move
                 game_state[empty_cell] = 1
                 # minimize the value
-                value = min(value, self.__alphabeta_search__(game_state, depth-1, alpha, beta, not is_maximizing))
+                value = min(value, self._alphabeta_search(game_state, depth-1, alpha, beta, not is_maximizing))
                 # undo move from above
                 game_state[empty_cell] = 0
                 # minimize beta
@@ -63,14 +63,14 @@ class Opponent:
             return value
 
 
-    def __minimax_ab__(self, game_state, depth, alpha, beta):
+    def _minimax_ab(self, game_state, depth, alpha, beta):
         """ performs alpha-beta pruning """
         possible_moves = {}
         # iterate over possible moves
         for empty_cell in np.where(game_state == 0)[0].tolist():
             # perform a possible move
             game_state[empty_cell] = 2
-            possible_moves[empty_cell] = self.__alphabeta_search__(game_state, depth, alpha, beta, False)
+            possible_moves[empty_cell] = self._alphabeta_search(game_state, depth, alpha, beta, False)
             # undo move from above
             game_state[empty_cell] = 0
 
@@ -78,7 +78,7 @@ class Opponent:
         return max(possible_moves, key=possible_moves.get)
 
 
-    def _next_turn_(self, game_state):
+    def next_turn(self, game_state):
         game_arr = np.copy(game_state)
 
         # ultra weak opponent
@@ -90,7 +90,7 @@ class Opponent:
         # reasonable opponent
         # alpha beta pruning with randomly performed bad moves
         elif self.difficulty == 2:
-            index = self.__minimax_ab__(np.copy(game_arr), 4, -2, -2)
+            index = self._minimax_ab(np.copy(game_arr), 4, -2, -2)
             # performs randomly bad moves by choosing a random move
             if random.choice([False, True, False]):
                 index = random.choice(np.where(game_arr == 0)[0].tolist())
@@ -99,7 +99,7 @@ class Opponent:
         # strong opponent
         # alpha beta pruning without any bad moves
         elif self.difficulty == 3:
-            index = self.__minimax_ab__(np.copy(game_arr), 6, -2, 2)
+            index = self._minimax_ab(np.copy(game_arr), 6, -2, 2)
             game_arr[index] = 2
 
         print(f"Your opponent's turn: {index+1}")
